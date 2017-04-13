@@ -87,3 +87,11 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# files we shouldn't upload
+.pdf
+.jpg
+.png
+.doc
+.docx
+.odt
