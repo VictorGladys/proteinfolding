@@ -36,7 +36,7 @@ def next(d, pos, grid, rest):
         #print('-'*50)
         return bridges
 
-    return max([next(newd, pos, copy.deepcopy(grid), rest[1:])
+    return max([0] + [next(newd, pos, copy.deepcopy(grid), rest[1:])
                 for newd in neighbordirs
                     if grid[pos[1] + newd[1]][pos[0] + newd[0]] == ''])
 
