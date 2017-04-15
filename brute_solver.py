@@ -24,15 +24,17 @@ def next(d, pos, grid, rest):
         for neighd in neighbordirs:
             try:
                 neighpos = pos + neighd
-                if grid[neighpos[1]][neighpos[0]] == 'H':
+                if grid[neighpos[1]][neighpos[0]] in ['H', 'C']:
                     bridges += 1
             except:
                 pass
-    if grid[pos[1]][pos[0]] == 'C':
+    elif grid[pos[1]][pos[0]] == 'C':
         for neighd in neighbordirs:
             try:
                 neighpos = pos + neighd
-                if grid[neighpos[1]][neighpos[0]] == 'C':
+                if grid[neighpos[1]][neighpos[0]] == 'H':
+                    bridges += 1
+                elif grid[neighpos[1]][neighpos[0]] == 'C':
                     bridges += 5
             except:
                 pass
@@ -56,7 +58,7 @@ if __name__ == '__main__':
     width = length + max(pos[0], 0)
     height = 2 * (length - 1) + 1
 
-    grid = [['' for _ in range(width)] for _ in range(height)]
+    grid = np.array([['' for _ in range(width)] for _ in range(height)])
     grid[pos[1]][pos[0]] = p[0]
 
     print(next(E, pos, grid, p[1:]))

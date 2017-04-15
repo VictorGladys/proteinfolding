@@ -1,5 +1,8 @@
 import sys
 import numpy as np
+import time
+from colorama import init, Back, Style
+init()
 
 # We simply count the amount of bridges formed by folding behind mid,
 # only counting from and to start and end
@@ -27,6 +30,25 @@ def Cprofit(protein, start, mid, end):
             bridges += 5
     return bridges
 
+def grid_repr(q, startp, mid, endp):
+    grid_repr = ''
+    for i, line in enumerate(q):
+        for j, char in enumerate(line):
+            if  i == mid+1:
+                grid_repr += Back.GREEN
+            if (i, j) == (mid+1, endp):
+                grid_repr += ' ' + Back.CYAN + str(char) + Style.RESET_ALL
+            elif (i, j) == (startp, mid):
+                grid_repr += ' ' + Back.YELLOW + str(char) + Style.RESET_ALL
+            else:
+                grid_repr += ' ' + str(char)
+            if  i == mid+1:
+                grid_repr += Style.RESET_ALL
+        grid_repr += '\n'
+    print(grid_repr)
+    print('-'*50)
+    time.sleep(0.5)
+
 if __name__ == '__main__':
     p = input("Protein: ")
     q = []
@@ -45,13 +67,12 @@ if __name__ == '__main__':
 
                 gains.append(val + continues_from)
 
-            idx = np.argmax(gains)
-            q[startp][mid] = gains[idx]
+                print("Can gain by folding this way:", val,
+                       "and continues from fold(s) that already summate: ", continues_from,
+                       "\n which equals", val + continues_from)
+                grid_repr(q, startp, mid, endp)
+            q[startp][mid] = max(gains)
+maxval = max(q[0][1:len(p)])
+print("Readout best value of the upper row of the finished grid:\n which is", maxval)
+grid_repr(q, startp, mid, endp)
 
-            # op welke manier moet je deze indices nu opslaan?
-            fold[idx].append(mid)
-q = q[0]
-maxval = np.argmax(q[1:len(p)]) + 1
-print("Folds after indexes: ", fold[maxval])
-print(fold)
-print("Score: -", q[maxval])
