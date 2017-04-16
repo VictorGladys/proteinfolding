@@ -8,11 +8,26 @@ from tkinter import *
 
 # Adjusts to different screen sizes, change r to change canvas size
 def r(number):
-    ratio = 2
+    ratio = 0.8
     if int(number):
         return int(number * ratio)
     else:
         return -1
+
+def scoreFn(to_check, s):
+    global score
+    check = to_check[0]
+    if check.type == "H" and len(to_check) > 1:
+        for j in to_check:
+            if j != to_check[1] and j.type == "H" \
+                 and ((check.loc_h == j.loc_h and abs(check.loc_w - j.loc_w) == 1) \
+                 or (check.loc_w == j.loc_w and abs(check.loc_h - j.loc_h) == 1)):
+                s += 1
+    del to_check[to_check.index(check)]
+    if to_check != []:
+        scoreFn(to_check, s)
+    else:
+        score = s
 
 # Aminoacid object contains a type and location    
 class Amino (object):
@@ -48,12 +63,15 @@ class Amino (object):
         # Adjust amount of aminoacids drawn
         drawn += 1
 
+        if drawn == n:
+            scoreFn(list(protein), 0)
+            print(score)
+
     # Set location of aminoacid and request to draw
     def assignPlace(self, loc_w, loc_h):
         self.loc_w = loc_w
         self.loc_h = loc_h
-
-        self.drawAmino()
+        
 
 # Validate whether clicked location is valid for next aminoacid in protein
 def validatePlace(event, loc_w, loc_h):
@@ -69,8 +87,10 @@ def validatePlace(event, loc_w, loc_h):
     # Check if in spot directly next to previous aminoacid
     if abs(loc_w - protein[drawn - 1].loc_w) ==  1 and loc_h == protein[drawn - 1].loc_h:
         protein[drawn].assignPlace(loc_w, loc_h)
+        protein[drawn].drawAmino()
     elif abs(loc_h - protein[drawn - 1].loc_h) ==  1 and loc_w == protein[drawn - 1].loc_w:
         protein[drawn].assignPlace(loc_w, loc_h)
+        protein[drawn].drawAmino()
 
 # Delete previous aminoacid accept for first two        
 def delete():
@@ -138,5 +158,7 @@ if __name__ == '__main__':
 
     # Place first and second aminoacid
     protein[drawn].assignPlace(n, n)
+    protein[drawn].drawAmino()
     protein[drawn].assignPlace(n, n - 1)
+    protein[drawn].drawAmino()
     root.mainloop()
