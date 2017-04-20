@@ -15,10 +15,20 @@ def scoreFn(to_check, s):
     check = to_check[0]
     if check.type == "H" and len(to_check) > 1:
         for j in to_check:
+            if j != to_check[1] and (j.type == "H"  or j.type == "C") \
+                 and ((check.loc_h == j.loc_h and abs(check.loc_w - j.loc_w) == 1) \
+                 or (check.loc_w == j.loc_w and abs(check.loc_h - j.loc_h) == 1)):
+                s += 1
+    if check.type == "C" and len(to_check) > 1:
+        for j in to_check:
             if j != to_check[1] and j.type == "H" \
                  and ((check.loc_h == j.loc_h and abs(check.loc_w - j.loc_w) == 1) \
                  or (check.loc_w == j.loc_w and abs(check.loc_h - j.loc_h) == 1)):
                 s += 1
+            if j != to_check[1] and j.type == "C" \
+                 and ((check.loc_h == j.loc_h and abs(check.loc_w - j.loc_w) == 1) \
+                 or (check.loc_w == j.loc_w and abs(check.loc_h - j.loc_h) == 1)):
+                s += 5
     del to_check[to_check.index(check)]
     if to_check != []:
         scoreFn(to_check, s)
