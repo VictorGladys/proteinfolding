@@ -150,7 +150,15 @@ if __name__ == '__main__':
     setupProtein()
 
     # Initialize canvas
-    canvas = Canvas(root, width = r((n + 1) * grid_size), height = r((n + 1) * grid_size))
+    canvas = Canvas(root, width = r((n + 1) * grid_size), height = r((n + 1) * grid_size), scrollregion=(0,0,r((n + 1) * grid_size),r((n + 1) * grid_size)))
+    hbar=Scrollbar(root,orient=HORIZONTAL)
+    hbar.pack(side=BOTTOM,fill=X)
+    hbar.config(command=canvas.xview)
+    vbar=Scrollbar(root,orient=VERTICAL)
+    vbar.pack(side=RIGHT,fill=Y)
+    vbar.config(command=canvas.yview)
+    canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
+    canvas.pack(side=LEFT,expand=True,fill=BOTH)
     createGrid()
 
     for i in range(round((n - 4) // 2)):
