@@ -15,7 +15,6 @@ def r(number):
         return -1
 
 def scoreFn(to_check, s):
-    global score
     check = to_check[0]
     if check.type == "H" and len(to_check) > 1:
         for j in to_check:
@@ -35,9 +34,9 @@ def scoreFn(to_check, s):
                 s += 5
     del to_check[to_check.index(check)]
     if to_check != []:
-        scoreFn(to_check, s)
+        return scoreFn(to_check, s)
     else:
-        score = s
+        return s
 
 # Aminoacid object contains a type and location    
 class Amino (object):
@@ -74,8 +73,7 @@ class Amino (object):
         drawn += 1
 
         if drawn == n:
-            scoreFn(list(protein), 0)
-            print(score)
+            print(scoreFn(list(protein), 0))
 
     # Set location of aminoacid and request to draw
     def assignPlace(self, loc_w, loc_h):
@@ -102,7 +100,7 @@ def validatePlace(event, loc_w, loc_h):
         protein[drawn].assignPlace(loc_w, loc_h)
         protein[drawn].drawAmino()
 
-# Delete previous aminoacid accept for first two        
+# Delete previous aminoacid except for first two        
 def delete():
     global drawn
     if drawn > 2:
