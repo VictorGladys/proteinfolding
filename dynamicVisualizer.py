@@ -88,14 +88,6 @@ def createGrid():
 # mid    ---    mid+1
 #  |             |
 # mid-it      mid+1+it
-def Hprofit(protein, start, mid, end):
-    shortest = min(mid - start, end - (mid+1))
-    bridges = 0
-    for it in range(1, shortest+1):
-        if protein[mid - it] == 'H' and protein[mid + 1 + it] == 'H':
-            bridges += 1
-    return bridges
-
 def Cprofit(protein, start, mid, end):
     shortest = min(mid - start, end - (mid+1))
     bridges = 0
@@ -122,7 +114,7 @@ def setupProtein():
 
     # Protein has to be composed out of H and P only
     for i in p:
-        if i != "H" and i != "P":
+        if i != "H" and i != "P" and i != "C":
             quit()
         else:
             protein.append(Amino(i))
@@ -200,5 +192,5 @@ if __name__ == '__main__':
     q = q[0]
     maxval = np.argmax(q[1:len(p)]) + 1
     translate(fold[0][maxval])
-    
-    
+
+    root.mainloop()
