@@ -29,14 +29,10 @@ def Cprofit(protein, start, mid, end):
 
 if __name__ == '__main__':
     p = input("Protein: ")
-    q = []
-    fold = [[] for _ in range(len(p))]
-    for mid in range(1, len(p)):
-        q.append([])
-        for n in range(len(p)):
-            q[mid-1].append(0)
+    q    = [[0  for _ in range(len(p))] for _ in range(len(p))]
+    fold = [[[] for _ in range(len(p))] for _ in range(len(p))]
 
-    for mid in range(len(p) - 3, 0, -1):
+    for mid in range(len(p) - 3, 0, -1): # == range(1, len(p) - 2) backwards
         for startp in range(0, mid):
             gains = [0]
             for endp in range(mid + 2, len(p)):
@@ -48,10 +44,10 @@ if __name__ == '__main__':
             idx = np.argmax(gains)
             q[startp][mid] = gains[idx]
 
-            # op welke manier moet je deze indices nu opslaan?
-            fold[idx].append(mid)
+            fold[startp][mid] += fold[mid][idx+1+mid] + [mid]
+            #print('\n'.join('\t'.join(''.join(str(c) for c in char) for char in line) for line in fold))
+            #print('-'*50)
 q = q[0]
 maxval = np.argmax(q[1:len(p)]) + 1
-print("Folds after indexes: ", fold[maxval])
-print(fold)
-print("Score: -", q[maxval])
+print("Folds after indexes: ", fold[0][maxval])
+print("Score: -{}".format(q[maxval]))

@@ -40,8 +40,8 @@ def next(d, pos, grid, rest):
                 pass
 
     if rest[1:] == '':
-        #print('\n'.join(' '.join(' ' if char == '' else char for char in line) for line in grid))
-        #print('-'*50)
+        print('\n'.join(' '.join(' ' if char == '' else char for char in line) for line in grid))
+        print('-'*50)
         return bridges
 
     return bridges + max([0] + [next(newd, pos, copy.deepcopy(grid), rest[1:])
