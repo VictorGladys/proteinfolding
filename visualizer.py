@@ -127,7 +127,7 @@ def setupProtein():
 
     # Protein has to be composed out of H and P only
     for i in p:
-        if i != "H" and i != "P":
+        if i != "H" and i != "P" and i != "C":
             quit()
         else:
             protein.append(Amino(i))
