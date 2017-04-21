@@ -14,6 +14,7 @@ RIGHT = 2
 #     |
 #     3
 def bend_part(bend_dir, pos, seq_grid, pos_grid):
+    prev_coord = np.where(seq_grid == pos-1)
     start_coord = np.where(seq_grid == pos)
     coords = [[], []]
     new_coords = [[], []]
@@ -33,10 +34,12 @@ def bend_part(bend_dir, pos, seq_grid, pos_grid):
     new_coords[1] = np.array(coords[1]) - start_coord[1] # x values
 
     # turn coordinates
-    direction = 1 if bend_dir == RIGHT else -1
+    s = 1 if bend_dir == RIGHT else -1
+    s *= -1 if start_coord[0] - prev_coord[0] else 1
     temp = new_coords[0]
-    new_coords[0] = direction*new_coords[1]
-    new_coords[1] = temp
+    print('yes' if start_coord[0] - prev_coord[0] else 'nop')
+    new_coords[0] = new_coords[1] * s
+    new_coords[1] = temp          * s
 
     # retranslate back to cutoffpoint
     new_coords[0] = np.array(new_coords[0]) + start_coord[0] # y values
@@ -77,6 +80,6 @@ if __name__ == '__main__':
 
     seq_grid, pos_grid = init_grid(p, len(p))
     bend_part(RIGHT, 2, seq_grid, pos_grid)
-    bend_part(RIGHT, 4, seq_grid, pos_grid)
-    bend_part(RIGHT, 6, seq_grid, pos_grid)
+    bend_part(LEFT, 4, seq_grid, pos_grid)
+    bend_part(LEFT, 6, seq_grid, pos_grid)
 
