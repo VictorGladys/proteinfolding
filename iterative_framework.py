@@ -18,28 +18,30 @@ def cost(aminoA, aminoB):
         return 5
     return 0
 
-def score(p, seq_grid):
-    s = 0
-    # -1 does not lose information because we only care if a pos is bigger
-    # also: this way we never go out of bounds with the directions
-    for pos in range(len(p)-1):
-        coord = np.where(seq_grid == pos+1)
+def init_score(p):
+    def score(seq_grid):
+        s = 0
+        # -1 does not lose information because we only care if a pos is bigger
+        # also: this way we never go out of bounds with the directions
+        for pos in range(len(p)-1):
+            coord = np.where(seq_grid == pos+1)
 
-        N = seq_grid[coord[0]+1, coord[1]  ][0]-1
-        S = seq_grid[coord[0]-1, coord[1]  ][0]-1
-        O = seq_grid[coord[0]  , coord[1]+1][0]-1
-        W = seq_grid[coord[0]  , coord[1]-1][0]-1
+            N = seq_grid[coord[0]-1, coord[1]  ][0]-1
+            S = seq_grid[coord[0]+1, coord[1]  ][0]-1
+            O = seq_grid[coord[0]  , coord[1]+1][0]-1
+            W = seq_grid[coord[0]  , coord[1]-1][0]-1
 
-        # pos+1 because we don't want to count sequential aminos
-        if N > pos+1:
-            s += cost(p[pos], p[N])
-        elif S > pos+1:
-            s += cost(p[pos], p[S])
-        elif O > pos+1:
-            s += cost(p[pos], p[O])
-        elif W > pos+1:
-            s += cost(p[pos], p[W])
-    return s
+            # pos+1 because we don't want to count sequential aminos
+            if N > pos+1:
+                s += cost(p[pos], p[N])
+            elif S > pos+1:
+                s += cost(p[pos], p[S])
+            elif O > pos+1:
+                s += cost(p[pos], p[O])
+            elif W > pos+1:
+                s += cost(p[pos], p[W])
+        return s
+    return score
 
 
 def rotate_coords(coords, start_coord, prev_coord, bend_dir):
@@ -97,11 +99,12 @@ def bend_part(bend_dir, pos, orig_seq_grid, orig_pos_grid):
     pos_grid[new_coords] += 1
 
     if np.where(pos_grid > 1)[0].size > 0:
-        print("incorrect fold occured, skipped")
-        return orig_seq_grid, orig_pos_grid
+        #print("incorrect fold occured, skipped")
+        return None
 
-    seq_grid[new_coords] = seq_grid[coords]
+    tmp_vals = seq_grid[coords]
     seq_grid[coords] = 0
+    seq_grid[new_coords] = tmp_vals
 
     return seq_grid, pos_grid
 
@@ -119,18 +122,19 @@ def init_grid(p, l):
 
 if __name__ == '__main__':
     p = "HPPHHPHPPH"
-
     seq, pos = init_grid(p, len(p))
+    score = init_score(p)
+
     seq, pos = bend_part(LEFT, 2, seq, pos)
     print(seq)
-    print("Score: ", score(p, seq))
+    print("Score: ", score(seq))
     seq, pos = bend_part(LEFT, 4, seq, pos)
     print(seq)
-    print("Score: ", score(p, seq))
+    print("Score: ", score(seq))
     seq, pos = bend_part(LEFT, 6, seq, pos)
     print(seq)
-    print("Score: ", score(p, seq))
+    print("Score: ", score(seq))
     seq, pos = bend_part(LEFT, 9, seq, pos)
     print(seq)
-    print("Score: ", score(p, seq))
+    print("Score: ", score(seq))
 
