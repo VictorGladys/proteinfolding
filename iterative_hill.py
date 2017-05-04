@@ -1,4 +1,4 @@
-from iterative_framework import *
+from includes.iterative_framework import *
 import random
 
 iters = 100
@@ -29,5 +29,6 @@ for i in range(iters):
 
 print(seq)
 print(score(seq))
+input()
 
 

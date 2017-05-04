@@ -2,8 +2,8 @@ import sys
 import numpy as np
 from tkinter import *
 
-import includes/dynamic_solver as dyn
-import includes/visualizer as vis
+import includes.dynamic_solver as dyn
+import includes.visualizer as vis
 
 # Protein object contains a list of aminoacids, that each have a type and location
 class Protein (object):
