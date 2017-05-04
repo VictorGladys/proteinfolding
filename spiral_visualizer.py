@@ -185,6 +185,7 @@ if __name__ == '__main__':
             top = results[i][0]
             index = i
     print(top)
+
     for i in spiral(index + 1, list(protein))[1]:
         i.drawAmino()
     
