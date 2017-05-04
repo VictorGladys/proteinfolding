@@ -1,4 +1,4 @@
-from iterative_framework import *
+from includes/iterative_framework import *
 import random
 
 # Big question: How do we deal with invalid bends? Two ways:
@@ -12,7 +12,7 @@ p = input("Protein: ")
 seq, pos = init_grid(p, len(p))
 score = init_score(p)
 best_score = 0
-all_perms = "permutations"([LEFT, RIGHT], range(2, len(p)))
+all_perms = [(bendd, bendp) for bendd in [LEFT, RIGHT] for bendp in range(2, len(p))]
 
 this_gen = ["random_pick_multiple"(all_perms) for _ in generation_size] #maybe implement with choice?
 
