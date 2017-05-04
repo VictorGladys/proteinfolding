@@ -1,7 +1,7 @@
 from iterative_framework import *
 import random
 
-iters = 1000
+iters = 100
 p = input("Protein: ")
 seq, pos = init_grid(p, len(p))
 score = init_score(p)
@@ -28,7 +28,6 @@ for i in range(iters):
     seq, pos = random.choice(scores)
 
 print(seq)
-print()
 print(score(seq))
 
 
