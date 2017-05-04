@@ -33,5 +33,3 @@ if __name__ == '__main__':
     seq, pos = hill(iters, p)
     print(seq)
     print(score(seq))
-
-
