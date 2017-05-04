@@ -7,7 +7,8 @@
 import numpy as np
 import copy
 
-LEFT  = 1
+LEFT  = 0
+NONE  = 1
 RIGHT = 2
 
 def cost(aminoA, aminoB):
@@ -115,6 +116,8 @@ def bend_all(bends, orig_seq, orig_pos):
     pos = copy.deepcopy(orig_pos)
 
     for bend_dir, bend_pos in bends:
+        if bend_dir == NONE:
+            continue
         seq, pos = bend_part(bend_dir, bend_pos, seq, pos)
         if seq is None:
             return None, None
