@@ -64,6 +64,7 @@ def rotate_coords(coords, start_coord, prev_coord, bend_dir):
 
     return new_coords
 
+
 # We want to bend after pos, so:
 # 1 - 2 - 3
 # and
@@ -74,18 +75,18 @@ def rotate_coords(coords, start_coord, prev_coord, bend_dir):
 # 1 - 2
 #     |
 #     3
-def bend_part(bend_dir, pos, orig_seq_grid, orig_pos_grid):
+def bend_part(bend_dir, bend_pos, orig_seq_grid, orig_pos_grid):
     seq_grid = copy.deepcopy(orig_seq_grid)
     pos_grid = copy.deepcopy(orig_pos_grid)
 
-    prev_coord = np.where(seq_grid == pos-1)
-    start_coord = np.where(seq_grid == pos)
+    prev_coord = np.where(seq_grid == bend_pos-1)
+    start_coord = np.where(seq_grid == bend_pos)
     coords = [[], []]
 
     # find coordinates of following aminoacids
     while 1:
-        pos += 1
-        coord = np.where(seq_grid == pos)
+        bend_pos += 1
+        coord = np.where(seq_grid == bend_pos)
         if coord[0].size == 0:
             break
         else:
@@ -100,13 +101,26 @@ def bend_part(bend_dir, pos, orig_seq_grid, orig_pos_grid):
 
     if np.where(pos_grid > 1)[0].size > 0:
         #print("incorrect fold occured, skipped")
-        return None
+        return None, None
 
     tmp_vals = seq_grid[coords]
     seq_grid[coords] = 0
     seq_grid[new_coords] = tmp_vals
 
     return seq_grid, pos_grid
+
+
+def bend_all(bends, orig_seq, orig_pos):
+    seq = copy.deepcopy(orig_seq)
+    pos = copy.deepcopy(orig_pos)
+
+    for bend_dir, bend_pos in bends:
+        seq, pos = bend_part(bend_dir, bend_pos, seq, pos)
+        if seq is None:
+            return None, None
+
+    return seq, pos
+
 
 def init_grid(p, l):
     seq_grid = np.ndarray((2*l, 2*l), dtype=int)
@@ -137,4 +151,3 @@ if __name__ == '__main__':
     seq, pos = bend_part(LEFT, 9, seq, pos)
     print(seq)
     print("Score: ", score(seq))
-

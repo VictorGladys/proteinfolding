@@ -2,33 +2,8 @@ import sys
 import numpy as np
 import time
 from colorama import init, Back, Style
+import dynamic_solver as dyn
 init()
-
-# We simply count the amount of bridges formed by folding behind mid,
-# only counting from and to start and end
-# mid    ---    mid+1
-#  |             |
-# mid-it      mid+1+it
-def Hprofit(protein, start, mid, end):
-    shortest = min(mid - start, end - (mid+1))
-    bridges = 0
-    for it in range(1, shortest+1):
-        if protein[mid - it] == 'H' and protein[mid + 1 + it] == 'H':
-            bridges += 1
-    return bridges
-
-def Cprofit(protein, start, mid, end):
-    shortest = min(mid - start, end - (mid+1))
-    bridges = 0
-    for it in range(1, shortest+1):
-        charsum = ord(protein[mid - it]) + ord(protein[mid + 1 + it])
-        if charsum == 144:      # H + H
-            bridges += 1
-        elif charsum == 139:    # H + C
-            bridges += 1
-        elif charsum == 134:    # C + C
-            bridges += 5
-    return bridges
 
 def grid_repr(q, startp, mid, endp):
     grid_repr = ''
@@ -49,20 +24,15 @@ def grid_repr(q, startp, mid, endp):
     print('-'*50)
     time.sleep(0.5)
 
-if __name__ == '__main__':
-    p = input("Protein: ")
-    q = []
-    fold = [[] for _ in range(len(p))]
-    for mid in range(1, len(p)):
-        q.append([])
-        for n in range(len(p)):
-            q[mid-1].append(0)
+def solve(p):
+    q    = [[0  for _ in range(len(p))] for _ in range(len(p))]
+    fold = [[[] for _ in range(len(p))] for _ in range(len(p))]
 
-    for mid in range(len(p) - 3, 0, -1):
+    for mid in range(len(p) - 3, 0, -1): # == range(1, len(p) - 2) backwards
         for startp in range(0, mid):
-            gains = [0]
+            gains = []
             for endp in range(mid + 2, len(p)):
-                val = Cprofit(p, startp, mid, endp)
+                val = dyn.Cprofit(p, startp, mid, endp)
                 continues_from = q[mid+1][endp]
 
                 gains.append(val + continues_from)
@@ -71,8 +41,20 @@ if __name__ == '__main__':
                        "and continues from fold(s) that already summate: ", continues_from,
                        "\n which equals", val + continues_from)
                 grid_repr(q, startp, mid, endp)
-            q[startp][mid] = max(gains)
-maxval = max(q[0][1:len(p)])
-print("Readout best value of the upper row of the finished grid:\n which is", maxval)
-grid_repr(q, startp, mid, endp)
+            idx = np.argmax(gains)
+            q[startp][mid] = gains[idx]
 
+            fold[startp][mid] += fold[mid][idx+mid+2] + [mid]
+            #print('\n'.join('\t'.join(''.join(str(c) for c in char) for char in line) for line in fold))
+            #print('-'*50)
+    print("Readout best value of the upper row of the finished grid:\n which is", maxval)
+    grid_repr(q, startp, mid, endp)
+    return q[0], fold[0]
+
+if __name__ == '__main__':
+    p = input("Protein: ")
+
+    q, fold = solve(p)
+    maxval = np.argmax(q[1:len(p)]) + 1
+
+    print("Folds after indexes: ", fold[maxval])

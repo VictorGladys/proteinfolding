@@ -51,7 +51,7 @@ def solve(p):
 if __name__ == '__main__':
     p = input("Protein: ")
 
-    q, fold = solve()
+    q, fold = solve(p)
     maxval = np.argmax(q[1:len(p)]) + 1
 
     print("Folds after indexes: ", fold[maxval])
