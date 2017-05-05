@@ -6,15 +6,6 @@ import dynamic_solver as dyn
 import includes.protein as protein
 import includes.visualizer as vis
 
-
-# Setup grid
-def createGrid():
-    for i in range(n + 1):
-        for j in range(n + 1):
-            canvas.create_rectangle(vis.r(j * 25), vis.r(i * 25),
-                    vis.r((j + 1) * 25), vis.r((i + 1) * 25), fill='white')
-    canvas.pack()
-
 if __name__ == '__main__':
     # Initialize window
     root=Tk()
@@ -45,7 +36,7 @@ if __name__ == '__main__':
     canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
     canvas.pack(side=LEFT,expand=True,fill=BOTH)
 
-    createGrid()
+    vis.createGrid(n, canvas)
 
     q, fold = dyn.solve(prot.p)
     maxval = np.argmax(q[1:n]) + 1
