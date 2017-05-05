@@ -50,23 +50,23 @@ class Amino (object):
         global canvas, drawn, protein
 
         # Draw letter
-        id = canvas.create_text(r(self.loc_w * grid_size + grid_size / 2), r(self.loc_h * grid_size + grid_size / 2), text = self.type, font = r(grid_size), fill="red")
+        id = canvas.create_text(r(self.loc_w * 25 + 25 / 2), r(self.loc_h * 25 + 25 / 2), text = self.type, font = r(25), fill="red")
         letters.append(id)
 
         # Connect with line to previous aminoacid
         if drawn > 0:
             if self.loc_h < protein[drawn - 1].loc_h:
-                id = canvas.create_line(r(self.loc_w * grid_size + grid_size / 2), r(self.loc_h * grid_size + grid_size / 1.5),
-                                   r(protein[drawn - 1].loc_w * grid_size + grid_size / 2), r(protein[drawn - 1].loc_h * grid_size + grid_size / 3), fill="red")
+                id = canvas.create_line(r(self.loc_w * 25 + 25 / 2), r(self.loc_h * 25 + 25 / 1.5),
+                                   r(protein[drawn - 1].loc_w * 25 + 25 / 2), r(protein[drawn - 1].loc_h * 25 + 25 / 3), fill="red")
             elif self.loc_h > protein[drawn - 1].loc_h:
-                id = canvas.create_line(r(self.loc_w * grid_size + grid_size / 2), r(self.loc_h * grid_size + grid_size / 3),
-                                   r(protein[drawn - 1].loc_w * grid_size + grid_size / 2), r(protein[drawn - 1].loc_h * grid_size + grid_size / 1.5), fill="red")
+                id = canvas.create_line(r(self.loc_w * 25 + 25 / 2), r(self.loc_h * 25 + 25 / 3),
+                                   r(protein[drawn - 1].loc_w * 25 + 25 / 2), r(protein[drawn - 1].loc_h * 25 + 25 / 1.5), fill="red")
             elif self.loc_w < protein[drawn - 1].loc_w:
-                id = canvas.create_line(r(self.loc_w * grid_size + grid_size / 1.5), r(self.loc_h * grid_size + grid_size / 2),
-                                   r(protein[drawn - 1].loc_w * grid_size + grid_size / 3), r(protein[drawn - 1].loc_h * grid_size + grid_size / 2), fill="red")
+                id = canvas.create_line(r(self.loc_w * 25 + 25 / 1.5), r(self.loc_h * 25 + 25 / 2),
+                                   r(protein[drawn - 1].loc_w * 25 + 25 / 3), r(protein[drawn - 1].loc_h * 25 + 25 / 2), fill="red")
             else:
-                id = canvas.create_line(r(self.loc_w * grid_size + grid_size / 3), r(self.loc_h * grid_size + grid_size / 2),
-                                   r(protein[drawn - 1].loc_w * grid_size + grid_size / 1.5), r(protein[drawn - 1].loc_h * grid_size + grid_size / 2), fill="red")
+                id = canvas.create_line(r(self.loc_w * 25 + 25 / 3), r(self.loc_h * 25 + 25 / 2),
+                                   r(protein[drawn - 1].loc_w * 25 + 25 / 1.5), r(protein[drawn - 1].loc_h * 25 + 25 / 2), fill="red")
         lines.append(id)        
 
         # Adjust amount of aminoacids drawn
@@ -136,14 +136,12 @@ def tag_helper(loc_w, loc_h):
         return lambda event:validatePlace(event, loc_w, loc_h)
 
 # Setup grid
-def createGrid():
+def createGrid(n, canvas):
     for i in range(2 * n + 1):
         for j in range(2 * n + 1):
-            id = canvas.create_rectangle(r(j * grid_size), r(i * grid_size), r((j + 1) * grid_size), r((i + 1) * grid_size), fill='white')
+            id = canvas.create_rectangle(r(j * 25), r(i * 25), r((j + 1) * 25), r((i + 1) * 25), fill='white')
             canvas.tag_bind(id, "<Button-1>", tag_helper(j, i))
     canvas.pack()
-    b = Button(root, text="Back", command=delete)
-    b.pack(side=BOTTOM)
 
 if __name__ == '__main__':
     # Initialize window
@@ -152,7 +150,6 @@ if __name__ == '__main__':
     root.title("Proteam Power")
 
     # Globals
-    grid_size = 30
     drawn = 0
     lines = []
     letters = []
@@ -161,8 +158,10 @@ if __name__ == '__main__':
     setupProtein()
 
     # Initialize canvas
-    canvas = Canvas(root, width = r((2 * n + 1) * grid_size), height = r((2 * n + 1) * grid_size))
-    createGrid()
+    canvas = Canvas(root, width = r((2 * n + 1) * 25), height = r((2 * n + 1) * 25))
+    createGrid(n, canvas)
+    b = Button(root, text="Back", command=delete)
+    b.pack(side=BOTTOM)
 
     # Place first and second aminoacid
     protein[drawn].assignPlace(n, n)

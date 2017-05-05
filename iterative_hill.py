@@ -32,4 +32,4 @@ if __name__ == '__main__':
     p = input("Protein: ")
     seq, pos = hill(iters, p)
     print(seq)
-    print(score(seq))
+    #print(score(seq))
