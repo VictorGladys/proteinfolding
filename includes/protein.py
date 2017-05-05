@@ -63,7 +63,7 @@ class Protein(object):
             print(seq[last_w_seq - 1][last_h_seq])
             print(seq[last_w_seq][last_h_seq + 1])
             print(seq[last_w_seq][last_h_seq - 1])
-            
+
             if seq[last_w_seq + 1][last_h_seq] == i:
                 print("YEY")
                 last_w_seq += 1
@@ -92,8 +92,6 @@ class Protein(object):
             amino.drawAmino(self.protein, drawn, self.canv)
             drawn += 1
         vis.scoreFn(list(self.protein), 0)
-
->>>>>>> 9ce9b3b595f721c936c9289b260eaaf6f052a33f
 
     class Amino(object):
         prevAmino = None
