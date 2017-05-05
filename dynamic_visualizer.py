@@ -3,8 +3,9 @@ import numpy as np
 from tkinter import *
 
 import dynamic_solver as dyn
-import includes.visualizer as vis
 import includes.protein as protein
+from includes import visualizer as vis
+
 
 # Setup grid
 def createGrid():
