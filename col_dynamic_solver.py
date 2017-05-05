@@ -47,7 +47,6 @@ def solve(p):
             fold[startp][mid] += fold[mid][idx+mid+2] + [mid]
             #print('\n'.join('\t'.join(''.join(str(c) for c in char) for char in line) for line in fold))
             #print('-'*50)
-    print("Readout best value of the upper row of the finished grid:\n which is", maxval)
     grid_repr(q, startp, mid, endp)
     return q[0], fold[0]
 
@@ -56,5 +55,6 @@ if __name__ == '__main__':
 
     q, fold = solve(p)
     maxval = np.argmax(q[1:len(p)]) + 1
+    print("We read out the best value of the upper row of the finished grid, which is", maxval)
 
-    print("Folds after indexes: ", fold[maxval])
+    print("To get this score, we have to fold after these indexes: ", fold[maxval])

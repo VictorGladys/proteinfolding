@@ -36,9 +36,9 @@ if __name__ == '__main__':
 
     vis.createGrid(n, canvas)
 
-    q, fold = dyn.solve(prot.p)
-    maxval = np.argmax(q[1:n]) + 1
-    prot.translateDynamic(fold[maxval])
+    iters = 100
+    seq, _, score = itr.hill(iters, prot.p)
+    prot.translateIterative(seq)
 
     root.mainloop()
 

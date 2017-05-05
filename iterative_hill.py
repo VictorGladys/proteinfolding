@@ -16,7 +16,7 @@ def hill(iters, p, scoref=None):
             # is implemented
             for bendp in range(2, len(p)):
                 option = bend_part(bendd, bendp, seq, pos)
-                if option[0] == None:
+                if option[0] is None:
                     continue
 
                 this_score = scoref(option[0])
