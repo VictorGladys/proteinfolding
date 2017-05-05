@@ -48,8 +48,52 @@ class Protein(object):
             drawn += 1
         vis.scoreFn(list(self.protein), 0)
 
-    def translateIterative(self, seq_grid):
-        pass
+    def translateIterative(self, seq):
+        print(self.p)
+        print(seq)
+        last_w = self.n // 2
+        last_h = self.n // 2
+        last_w_seq = self.n
+        last_h_seq = self.n
+        self.protein[0].assignPlace(last_w, last_h)
+
+        for i in range(2, self.n + 1):
+            print(i)
+            print(seq[last_w_seq + 1][last_h_seq])
+            print(seq[last_w_seq - 1][last_h_seq])
+            print(seq[last_w_seq][last_h_seq + 1])
+            print(seq[last_w_seq][last_h_seq - 1])
+            
+            if seq[last_w_seq + 1][last_h_seq] == i:
+                print("YEY")
+                last_w_seq += 1
+                last_w += 1
+                self.protein[i - 1].assignPlace(last_w, last_h)
+            elif seq[last_w_seq - 1][last_h_seq] == i:
+                print("YEY")
+                last_w_seq -= 1
+                last_w -= 1
+                self.protein[i - 1].assignPlace(last_w, last_h)
+            elif seq[last_w_seq][last_h_seq + 1] == i:
+                print("YEY")
+                last_h_seq += 1
+                last_h -= 1
+                self.protein[i - 1].assignPlace(last_w, last_w)
+            elif seq[last_w_seq][last_h_seq - 1] == i:
+                print("YEY")
+                last_h_seq -= 1
+                last_h += 1
+                self.protein[i - 1].assignPlace(last_w, last_w)
+
+        print("Score: -{}".format(vis.scoreFn(list(self.protein), 0)))
+
+        drawn = 0
+        for amino in self.protein:
+            amino.drawAmino(self.protein, drawn, self.canv)
+            drawn += 1
+        vis.scoreFn(list(self.protein), 0)
+
+>>>>>>> 9ce9b3b595f721c936c9289b260eaaf6f052a33f
 
     class Amino(object):
         prevAmino = None
