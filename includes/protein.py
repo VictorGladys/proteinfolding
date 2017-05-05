@@ -40,13 +40,13 @@ class Protein (object):
             else:
                 skip_next = False
 
-        print("Score: -{}".format(scoreFn(list(self.protein), 0)))
+        print("Score: -{}".format(vis.scoreFn(list(self.protein), 0)))
 
         drawn = 0
         for amino in self.protein:
             amino.drawAmino(self.protein, drawn, self.canv)
             drawn += 1
-        scoreFn(list(self.protein), 0)
+        vis.scoreFn(list(self.protein), 0)
 
     class Amino(object):
         prevAmino = None
@@ -56,17 +56,17 @@ class Protein (object):
             self.type = type
 
         def draw_line(self, canv, a, b, c, d):
-            canv.create_line(r(self.loc_w * 25 + 25 / a),
-                               r(self.loc_h * 25 + 25 / b),
-                               r(self.prevAmino.loc_w * 25 + 25 / c),
-                               r(self.prevAmino.loc_h * 25 + 25 / d), fill="red")
+            canv.create_line(vis.r(self.loc_w * 25 + 25 / a),
+                               vis.r(self.loc_h * 25 + 25 / b),
+                               vis.r(self.prevAmino.loc_w * 25 + 25 / c),
+                               vis.r(self.prevAmino.loc_h * 25 + 25 / d), fill="red")
 
         # Draw an aminoacid
         def drawAmino(self, protein, drawn, canv):
             self.prevAmino = protein[drawn - 1]
 
             # Draw letter
-            canv.create_text(r(self.loc_w * 25 + 25 / 2), r(self.loc_h * 25 + 25 / 2), text = self.type, font = r(25), fill="red")
+            canv.create_text(vis.r(self.loc_w * 25 + 25 / 2), vis.r(self.loc_h * 25 + 25 / 2), text = self.type, font = vis.r(25), fill="red")
 
 
             # Connect with line to previous aminoacid

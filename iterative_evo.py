@@ -9,6 +9,25 @@ import random
 #def random_lengths(gen_size, p):
 #    return np.clip((np.random.randn(gen_size)+1.5) *p/2, 1, p-1).astype(int)
 
+def generate_offspring(idxs, gen_size, prev_gen, p_len):
+        skewed = np.random.binomial(gen_size, 0.9, len(idxs))
+        offspr = mix(prev_gen[idxs[skewed]], random.randint(1, p_len-2)
+        return np.array(offspr)
+
+
+def generate_offspring2(idxs, gen_size, prev_gen, p_len):
+        top = prev_gen[idxs[-top_n:]]
+        more = (4*gen_size)//7
+        less = gen_size - more
+        select_offspr = mix(top, range(1, p_len-2))
+        shared_offspr = mix(prev_gen, [p_len//2])
+        #print(select_offspr)
+        #print( list(set(map(lambda i: map(tuple, i), select_offspr))) )
+
+        return np.array(random.sample(select_offspr, more)+
+                            random.sample(shared_offspr, less))
+
+
 def mix(proteins, cutoffpoint):
     new_proteins = []
     for i in cutoffpoint:
@@ -47,16 +66,11 @@ def evo(gens, gen_size, top_n, p):
         rand = np.random.random(len(scores))
 
         idxs = np.lexsort((rand, scores))
-        top = prev_gen[idxs[-top_n:]]
 
         # ...and then we base the new generation on them.
-        more = (4*gen_size)//7
-        less = gen_size - more
-        select_offspr = mix(top, range(1, len(p)-2))
-        shared_offspr = mix(prev_gen, [len(p)//2])
-
-        this_gen = np.array(random.sample(select_offspr, more)+
-                            random.sample(shared_offspr, less))
+        # we need a mechanism to imporve diversity/uniqueness
+        # otherwise we get stuck on local minima too easily
+        this_gen = generate_offspring(idxs, gen_size, prev_gen)
 
     new_seq, _ = bend_all(top[-1], seq, pos)
     print(new_seq)

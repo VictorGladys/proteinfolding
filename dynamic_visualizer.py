@@ -4,7 +4,7 @@ from tkinter import *
 
 import dynamic_solver as dyn
 import includes.protein as protein
-from includes import visualizer as vis
+import includes.visualizer as vis
 
 
 # Setup grid
