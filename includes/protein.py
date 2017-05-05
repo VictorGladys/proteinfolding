@@ -58,32 +58,20 @@ class Protein(object):
         self.protein[0].assignPlace(last_w, last_h)
 
         for i in range(2, self.n + 1):
-            print(i)
-            print(seq[last_w_seq + 1][last_h_seq])
-            print(seq[last_w_seq - 1][last_h_seq])
-            print(seq[last_w_seq][last_h_seq + 1])
-            print(seq[last_w_seq][last_h_seq - 1])
-
             if seq[last_w_seq + 1][last_h_seq] == i:
-                print("YEY")
                 last_w_seq += 1
-                last_w += 1
-                self.protein[i - 1].assignPlace(last_w, last_h)
+                last_w += 1          
             elif seq[last_w_seq - 1][last_h_seq] == i:
-                print("YEY")
                 last_w_seq -= 1
                 last_w -= 1
-                self.protein[i - 1].assignPlace(last_w, last_h)
             elif seq[last_w_seq][last_h_seq + 1] == i:
-                print("YEY")
                 last_h_seq += 1
                 last_h -= 1
-                self.protein[i - 1].assignPlace(last_w, last_w)
             elif seq[last_w_seq][last_h_seq - 1] == i:
-                print("YEY")
                 last_h_seq -= 1
                 last_h += 1
-                self.protein[i - 1].assignPlace(last_w, last_w)
+                
+            self.protein[i - 1].assignPlace(last_w, last_h)
 
         print("Score: -{}".format(vis.scoreFn(list(self.protein), 0)))
 
