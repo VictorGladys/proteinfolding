@@ -8,6 +8,12 @@ class Protein(object):
     p = ""
     canv = None
 
+    def __str__(self):
+        out = ""
+        for i in self.protein:
+            out += str(i) + "\n"
+        return out
+
     # Initialize
     def __init__(self, canv):
         self.p = input("Protein: ")
@@ -23,6 +29,13 @@ class Protein(object):
                 quit()
             else:
                 self.protein.append(self.Amino(i))
+
+    def draw(self):
+        drawn = 0
+        for amino in self.protein:
+            amino.drawAmino(self.protein, drawn, self.canv)
+            drawn += 1
+        vis.scoreFn(list(self.protein), 0)
 
     def translateDynamic(self, folds):
         direction = 1
@@ -44,15 +57,9 @@ class Protein(object):
 
         print("Score: -{}".format(vis.scoreFn(list(self.protein), 0)))
 
-        drawn = 0
-        for amino in self.protein:
-            amino.drawAmino(self.protein, drawn, self.canv)
-            drawn += 1
-        vis.scoreFn(list(self.protein), 0)
+        self.draw()
 
-    def translateIterative(self, seq):
-        print(self.p)
-        print(seq)
+    def translateIterativeHill(self, seq):
         last_w = self.n // 2
         last_h = np.ceil(self.n / 2)
         last_w_seq = self.n
@@ -76,15 +83,13 @@ class Protein(object):
             self.protein[i - 1].assignPlace(last_w, last_h)
 
         print("Score: -{}".format(vis.scoreFn(list(self.protein), 0)))
-
-        drawn = 0
-        for amino in self.protein:
-            amino.drawAmino(self.protein, drawn, self.canv)
-            drawn += 1
-        vis.scoreFn(list(self.protein), 0)
+        self.draw()
 
     class Amino(object):
         prevAmino = None
+
+        def __str__(self):
+            return self.type + ": (" + str(self.loc_w) + ", " + str(self.loc_h) + ")"
 
         # Initialize
         def __init__(self, type):

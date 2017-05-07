@@ -16,6 +16,7 @@ if __name__ == '__main__':
 
     prot = protein.Protein(canvas)
     n = prot.n
+    times = int(input("Hoe many times do you want to run the algorithm? "))
 
     # Initialize canvas
     canvas.config(width = vis.r((n + 1) * 25),
@@ -37,9 +38,13 @@ if __name__ == '__main__':
     vis.createGrid(n, canvas)
 
     iters = 100
-    seq, _, score = itr.hill(iters, prot.p)
-    prot.translateIterative(seq)
+    high_score = 0
+    for i in range(0, times):
+        seq, _, score = itr.hill(iters, prot.p)
+        if score > high_score:
+            high_score = score
+            high_seq = seq
+            
+    prot.translateIterativeHill(high_seq)
 
     root.mainloop()
-
-
