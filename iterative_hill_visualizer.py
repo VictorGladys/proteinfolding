@@ -38,10 +38,11 @@ if __name__ == '__main__':
     vis.createGrid(n, canvas)
 
     iters = 100
-    high = 0
+    high_score = 0
     for i in range(0, times):
         seq, _, score = itr.hill(iters, prot.p)
-        if score > high:
+        print(score)
+        if score > high_score:
             high_score = score
             high_seq = seq
             
