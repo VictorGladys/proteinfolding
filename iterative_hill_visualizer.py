@@ -41,6 +41,7 @@ if __name__ == '__main__':
     high_score = 0
     for i in range(0, times):
         seq, _, score = itr.hill(iters, prot.p)
+        print(score)
         if score > high_score:
             high_score = score
             high_seq = seq
