@@ -1,4 +1,6 @@
 from . import visualizer as vis
+import numpy as np
+
 # Protein object contains a list of aminoacids, that each have a type and location
 class Protein(object):
     protein = []
@@ -59,25 +61,25 @@ class Protein(object):
 
     def translateIterativeHill(self, seq):
         last_w = self.n // 2
-        last_h = self.n // 2
+        last_h = np.ceil(self.n / 2)
         last_w_seq = self.n
         last_h_seq = self.n
         self.protein[0].assignPlace(last_w, last_h)
 
         for i in range(2, self.n + 1):
-            if seq[last_w_seq + 1][last_h_seq] == i:
+            if seq[last_h_seq][last_w_seq + 1] == i:
                 last_w_seq += 1
-                last_w += 1          
-            elif seq[last_w_seq - 1][last_h_seq] == i:
+                last_w += 1
+            elif seq[last_h_seq][last_w_seq - 1] == i:
                 last_w_seq -= 1
                 last_w -= 1
-            elif seq[last_w_seq][last_h_seq + 1] == i:
+            elif seq[last_h_seq + 1][last_w_seq] == i:
                 last_h_seq += 1
-                last_h -= 1
-            elif seq[last_w_seq][last_h_seq - 1] == i:
-                last_h_seq -= 1
                 last_h += 1
-                
+            elif seq[last_h_seq - 1][last_w_seq] == i:
+                last_h_seq -= 1
+                last_h -= 1
+
             self.protein[i - 1].assignPlace(last_w, last_h)
 
         print("Score: -{}".format(vis.scoreFn(list(self.protein), 0)))
