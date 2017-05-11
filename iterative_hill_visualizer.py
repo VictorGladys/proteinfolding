@@ -1,4 +1,6 @@
 from tkinter import *
+import matplotlib.pyplot as plt
+from numpy import array
 
 import iterative_hill as itr
 import includes.protein as protein
@@ -39,13 +41,26 @@ if __name__ == '__main__':
 
     iters = 100
     high_score = -1
+    scores = []
+    freqs = []
     for i in range(0, times):
         seq, _, score = itr.hill(iters, prot.p)
         print(score)
+        if score not in scores:
+            scores.append(score)
+            freqs.append(1)
+        else:
+            freqs[scores.index(score)] += 1
         if score > high_score:
             high_score = score
             high_seq = seq
             
     prot.translateIterativeHill(high_seq)
+
+    npscores = array(scores)
+    npfreqs = array(freqs)
+    plt.scatter(npscores, npfreqs)
+    plt.show()
+    
 
     root.mainloop()
