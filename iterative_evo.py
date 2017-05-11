@@ -10,7 +10,7 @@ import random
 #    return np.clip((np.random.randn(gen_size)+1.5) *p/2, 1, p-1).astype(int)
 
 def generate_offspring(idxs, gen_size, prev_gen, p_len):
-        skewed = np.random.binomial(gen_size, 0.9, len(idxs))
+        skewed = np.random.binomial(gen_size ** 0.5, 0.9, len(idxs))
         offspr = mix(prev_gen[idxs[skewed]], [random.randint(1, p_len-2)])
         return np.array(offspr)
 
@@ -51,7 +51,7 @@ def evo(gens, gen_size, top_n, p):
 #    this_gen = [random.sample(all_perms, l) for l in random_lengths(gen_size, len(p))]
     this_gen = np.array([random_protein(len(p)) for _ in range(gen_size)])
 
-    for _ in range(gens):
+    for i in range(gens):
         prev_gen = this_gen
         # First we find the best proteins in the previous generation...
         scores = []
@@ -70,7 +70,8 @@ def evo(gens, gen_size, top_n, p):
         # ...and then we base the new generation on them.
         # we need a mechanism to imporve diversity/uniqueness
         # otherwise we get stuck on local minima too easily
-        this_gen = generate_offspring2(idxs, gen_size, prev_gen, len(p))
+        this_gen = generate_offspring(idxs, gen_size, prev_gen, len(p))
+        print(i)
 
 
     new_seq, _ = bend_all(this_gen[-1], seq, pos)
