@@ -140,7 +140,6 @@ def rotate_coords3d(coords, start_coord, prev_coord, bend_dir):
     new_coords[0] = np.array(coords[0]) - start_coord[0] # z values
     new_coords[1] = np.array(coords[1]) - start_coord[1] # y values
     new_coords[2] = np.array(coords[2]) - start_coord[2] # x values
-    print("new after translate to origin:\n", new_coords)
 
     # turn coordinates
     if bend_dir in [UP, DOWN]:
@@ -157,7 +156,6 @@ def rotate_coords3d(coords, start_coord, prev_coord, bend_dir):
         temp = new_coords[0]
         new_coords[0] = new_coords[c] * s
         new_coords[c] = temp          * s
-        print("new after switch:\n", new_coords)
     elif bend_dir in [RIGHT, LEFT]:
         s = 1 if bend_dir == RIGHT else -1
         s *= -1 if start_coord[0] - prev_coord[0] else 1
@@ -166,10 +164,9 @@ def rotate_coords3d(coords, start_coord, prev_coord, bend_dir):
         new_coords[2] = temp          * s
 
     # retranslate back to cutoffpoint
-    new_coords[0] = np.array(new_coords[0]) + start_coord[0] # y values
-    new_coords[1] = np.array(new_coords[1]) + start_coord[1] # x values
-    print("new after retranslate:\n", new_coords, "\nstart:", start_coord)
-    print()
+    new_coords[0] = np.array(new_coords[0]) + start_coord[0] # z values
+    new_coords[1] = np.array(new_coords[1]) + start_coord[1] # y values
+    new_coords[2] = np.array(new_coords[2]) + start_coord[2] # x values
 
     return new_coords
 

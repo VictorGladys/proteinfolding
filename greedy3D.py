@@ -32,5 +32,5 @@ if __name__ == '__main__':
     iters = 100
     p = input("Protein: ")
     seq, pos, score = hill(iters, p)
-    print(seq[4])
+    print(seq)
     print(score)
