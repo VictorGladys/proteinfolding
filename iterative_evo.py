@@ -51,7 +51,7 @@ def evo(gens, gen_size, top_n, p):
 #    this_gen = [random.sample(all_perms, l) for l in random_lengths(gen_size, len(p))]
     this_gen = np.array([random_protein(len(p)) for _ in range(gen_size)])
 
-    for _ in range(gens):
+    for i in range(gens):
         prev_gen = this_gen
         # First we find the best proteins in the previous generation...
         scores = []
@@ -71,6 +71,7 @@ def evo(gens, gen_size, top_n, p):
         # we need a mechanism to imporve diversity/uniqueness
         # otherwise we get stuck on local minima too easily
         this_gen = generate_offspring(idxs, gen_size, prev_gen, len(p))
+        print(i)
 
 
     new_seq, _ = bend_all(this_gen[-1], seq, pos)
