@@ -143,22 +143,28 @@ def rotate_coords3d(coords, start_coord, prev_coord, bend_dir):
 
     # turn coordinates
     if bend_dir in [UP, DOWN]:
-        s = 1 if bend_dir == DOWN else -1
         ## next we check the directionality along the x and y axis
         ## with this we can find out the correct value for s, and wether we
         ## need to switch the z and x, or z and y coordinates
+        z_directionality = start_coord[0] - prev_coord[0]
         y_directionality = start_coord[1] - prev_coord[1]
         x_directionality = start_coord[2] - prev_coord[2]
 
+        s = 1 if bend_dir == DOWN else -1
+        if y_directionality:
+            s *= y_directionality
+        elif x_directionality:
+            s *= x_directionality
+
         c = 1 if y_directionality  else 2
-        s *= y_directionality if y_directionality else x_directionality
 
         temp = new_coords[0]
-        new_coords[0] = new_coords[c] * s
-        new_coords[c] = temp          * s
+        new_coords[0] = new_coords[c] *  s
+        new_coords[c] = temp          * -s
     elif bend_dir in [RIGHT, LEFT]:
         s = 1 if bend_dir == RIGHT else -1
-        s *= -1 if start_coord[0] - prev_coord[0] else 1
+        s *= -1 if start_coord[1] - prev_coord[1] else 1
+
         temp = new_coords[1]
         new_coords[1] = new_coords[2] * s
         new_coords[2] = temp          * s
@@ -277,19 +283,14 @@ def init_grid3d(p, l):
 
 
 if __name__ == '__main__':
-    p = "HPPHHPHPPH"
-    seq, pos = init_grid(p, len(p))
-    score = init_score(p)
+    p = "HHHHH"
+    seq, pos = init_grid3d(p, len(p))
+    score = init_score(p, is_3d=True)
 
-    seq, pos = bend_part(LEFT, 2, seq, pos)
-    print(seq)
+    seq, pos = bend_part(UP, 3, seq, pos, is_3d=True)
     print("Score: ", score(seq))
-    seq, pos = bend_part(LEFT, 4, seq, pos)
-    print(seq)
+    seq, pos = bend_part(LEFT, 2, seq, pos, is_3d=True)
     print("Score: ", score(seq))
-    seq, pos = bend_part(LEFT, 6, seq, pos)
-    print(seq)
-    print("Score: ", score(seq))
-    seq, pos = bend_part(LEFT, 9, seq, pos)
-    print(seq)
+    seq, pos = bend_part(RIGHT, 4, seq, pos, is_3d=True)
+    print(list(seq))
     print("Score: ", score(seq))

@@ -29,8 +29,8 @@ def hill(iters, p, scoref=None):
     return seq, pos, scoref(seq)
 
 if __name__ == '__main__':
-    iters = 100
     p = input("Protein: ")
+    iters = len(p)
     seq, pos, score = hill(iters, p)
-    print(seq)
+    print('\n\n'.join(['\n'.join([str(row) for row in layer]) for layer in seq]))
     print(score)
