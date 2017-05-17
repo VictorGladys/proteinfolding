@@ -270,14 +270,14 @@ def init_grid(p, l):
 
     return seq_grid, pos_grid
 
-def init_grid3d(p, l):
-    seq_grid = np.ndarray((2*l, 2*l, 2*l), dtype=int)
-    seq_grid[:, :, :] = 0
-    pos_grid = np.ndarray((2*l, 2*l, 2*l), dtype=int)
-    pos_grid[:, :, :] = 0
+def init_space(p, l):
+    seq_space = np.ndarray((2*l, 2*l, 2*l), dtype=int)
+    seq_space[:, :, :] = 0
+    pos_space = np.ndarray((2*l, 2*l, 2*l), dtype=int)
+    pos_space[:, :, :] = 0
 
-    seq_grid[(l, l, l + np.arange(l))] = np.arange(l)+1
-    pos_grid[(l, l, l + np.arange(l))] = 1
+    seq_space[(l, l + np.arange(l))] = np.arange(l)+1
+    pos_space[(l, l + np.arange(l))] = 1
 
     return seq_grid, pos_grid
 
