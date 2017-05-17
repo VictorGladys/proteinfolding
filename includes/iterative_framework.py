@@ -10,6 +10,8 @@ import copy
 LEFT  = 0
 NONE  = 1
 RIGHT = 2
+UP    = 3
+DOWN  = 4
 
 def cost(aminoA, aminoB):
     charsum = ord(aminoA) + ord(aminoB)
@@ -136,6 +138,16 @@ def init_grid(p, l):
 
     return seq_grid, pos_grid
 
+def init_space(p, l):
+    seq_space = np.ndarray((2*l, 2*l, 2*l), dtype=int)
+    seq_space[:, :, :] = 0
+    pos_space = np.ndarray((2*l, 2*l, 2*l), dtype=int)
+    pos_space[:, :, :] = 0
+
+    seq_space[(l, l + np.arange(l))] = np.arange(l)+1
+    pos_space[(l, l + np.arange(l))] = 1
+
+    return seq_grid, pos_grid
 
 if __name__ == '__main__':
     p = "HPPHHPHPPH"
