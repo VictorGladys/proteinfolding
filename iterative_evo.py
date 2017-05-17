@@ -86,8 +86,10 @@ def evo(gens, gen_size, top_n, p):
     #    print(score(new_seq))
 
 if __name__ == '__main__':
+
     gens = 100
     gen_size = 100
+
     top_n = 5
     p = input("Protein: ")
 
