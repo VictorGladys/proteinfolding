@@ -1,13 +1,15 @@
 from includes.iterative_framework import *
 import random
 
-def anneal(iters, p, chance_threshhold, scoref=None):
-    seq, pos = init_grid(p, len(p))
+def anneal(max_iters, p, chance_threshold, T=None, scoref=None):
+    if T == None:
+        T = lambda i, maxi: i/maxi
     if scoref == None:
         scoref = init_score(p)
+    seq, pos = init_grid(p, len(p))
     best_score = 0
 
-    for i in range(iters):
+    def continue(i, score):
         scores = [(seq, pos)]
         for bendd in [LEFT, RIGHT]:
             # We ignore 'bends' in the first and last positions
@@ -21,7 +23,7 @@ def anneal(iters, p, chance_threshhold, scoref=None):
 
                 this_score = scoref(option[0])
                 chance = random.randint(1, 100)
-                if chance <= chance_threshhold:
+                if chance <= chance_threshold:
                     if this_score > best_score:
                         scores = [option]
                         best_score = this_score
@@ -33,7 +35,7 @@ def anneal(iters, p, chance_threshhold, scoref=None):
     return seq, pos, scoref(seq)
 
 if __name__ == '__main__':
-    iters = 100
+    iters = 10
     chance_threshhold = 80
     p = input("Protein: ")
     seq, pos, score = hill(iters, p, chance_threshhold)
