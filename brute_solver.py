@@ -62,3 +62,4 @@ if __name__ == '__main__':
     grid[pos[1]][pos[0]] = p[0]
 
     print(next(E, pos, grid, p[1:]))
+    input()

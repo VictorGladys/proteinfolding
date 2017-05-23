@@ -8,7 +8,7 @@ from tkinter import *
 
 # Adjusts to different screen sizes, change r to change canvas size
 def r(number):
-    ratio = 0.8
+    ratio = 1
     if int(number):
         return int(number * ratio)
     else:
