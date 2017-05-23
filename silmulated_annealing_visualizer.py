@@ -39,12 +39,14 @@ if __name__ == '__main__':
 
     vis.createGrid(n, canvas)
 
-    iters = 100
+    iters = 5000
     high_score = -1
     scores = []
     freqs = []
+    #f = sim.gen_exponentialT(iters, 0.01)
+    f = sim.gen_sigmoidT_mathv(iters)
     for i in range(0, times):
-        seq, _, score = sim.anneal(iters, prot.p, 99)
+        seq, _, score = sim.anneal(iters, prot.p, T=f)
         print(score)
         if score not in scores:
             scores.append(score)
