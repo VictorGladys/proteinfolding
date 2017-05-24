@@ -1,6 +1,11 @@
 from includes.iterative_framework import *
 import random
 
+def gen_oneT():
+    def oneT():
+        return 1
+    return oneT
+
 def gen_linearT(maxi):
     def linearT(i):
         return i/maxi
@@ -20,7 +25,7 @@ def gen_exponentialT(maxi, b):
 #
 # We try different approaches to calculate v, the
 # average steepness of the slope
-def gen_sigmoidT_mathv(maxi, eps=10e-6):
+def gen_sigmoidT_mathv(maxi, eps=10e-4):
     x1 = maxi/2
     v = 2*np.log((1/eps) - 1) / maxi
     def sigmoidT(i):

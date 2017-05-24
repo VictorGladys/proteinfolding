@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     vis.createGrid(n, canvas)
 
-    iters = 100
+    iters = 1000
     high_score = -1
     scores = []
     freqs = []
