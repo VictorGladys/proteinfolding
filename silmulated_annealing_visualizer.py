@@ -13,14 +13,15 @@ if __name__ == '__main__':
     root.title("Proteam Power")
 
     # Globals
-
     canvas = Canvas(root)
 
     prot = protein.Protein(canvas)
     n = prot.n
+
+    # Get number of times to run algorithm
     times = int(input("How many times do you want to run the algorithm?"))
 
-    # Initialize canvas
+    # Initialize canvas (scrollbar)
     canvas.config(width = vis.r((n + 1) * 25),
                           height = vis.r((n + 1) * 25),
                           scrollregion=(0, 0, vis.r((n + 1) * 25),
@@ -39,28 +40,44 @@ if __name__ == '__main__':
 
     vis.createGrid(n, canvas)
 
-    iters = 1000
+    # Initialize algorithm
+    iters = 3000
     high_score = -1
     scores = []
     freqs = []
+
+    # Choice from various paths from 0 to 1 (y) over 0 tot iters (x)
     #f = sim.gen_exponentialT(iters, 0.01)
-    #f = sim.gen_linearT(iters)
+    f = sim.gen_linearT(iters)
     #f = sim.gen_oneT()
-    f = sim.gen_sigmoidT_mathv(iters)
+    #f = sim.gen_sigmoidT_mathv(iters)
+
+    #Run algorithm n times
     for i in range(0, times):
-        seq, _, score = sim.anneal(iters, prot.p, T=f)
+        try:
+            seq, _, score = sim.anneal(iters, prot.p, T=f)
+        except KeyboardInterrupt:
+            break
+        
         print(score)
+        print("Keer: ", i)
+
+        # Log frequency of scores
         if score not in scores:
             scores.append(score)
             freqs.append(1)
         else:
             freqs[scores.index(score)] += 1
+
+        # Log highest scores
         if score > high_score:
             high_score = score
             high_seq = seq
-            
+
+    # Visualize highest score        
     prot.translateIterativeHill(high_seq)
 
+    # Visualize frequencies
     npscores = array(scores)
     npfreqs = array(freqs)
     plt.scatter(npscores, npfreqs)

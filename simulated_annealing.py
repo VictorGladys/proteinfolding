@@ -2,7 +2,7 @@ from includes.iterative_framework import *
 import random
 
 def gen_oneT():
-    def oneT():
+    def oneT(i):
         return 1
     return oneT
 
@@ -56,7 +56,8 @@ def anneal(max_iters, p, T=None, scoref=None):
     global_best_score = 0
     global_best_fold = None
 
-    for i in range(max_iters):
+    i = 0
+    while i < max_iters:
         scores = [best_score]
         folds = [(seq, pos)]
         for bendd in [LEFT, RIGHT]:
@@ -85,8 +86,11 @@ def anneal(max_iters, p, T=None, scoref=None):
         if scores[tmp] > global_best_score:
             global_best_score = scores[tmp]
             global_best_fold = folds[tmp]
-            print('new global best: ', global_best_score)
-    
+            print('new global best: ', global_best_score, ', at iteration: ', i)
+            i = int(i*0.75)
+
+        i += 1
+            
     return global_best_fold[0], global_best_fold[1], global_best_score
 
 if __name__ == '__main__':
