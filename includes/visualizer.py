@@ -137,10 +137,10 @@ def tag_helper(loc_w, loc_h):
 
 # Setup grid
 def createGrid(n, canvas):
-    #for i in range(2 * n + 1):
-    #    for j in range(2 * n + 1):
-    #        id = canvas.create_rectangle(r(j * 25), r(i * 25), r((j + 1) * 25), r((i + 1) * 25), fill='white')
-    #        canvas.tag_bind(id, "<Button-1>", tag_helper(j, i))
+    for i in range(2 * n + 1):
+        for j in range(2 * n + 1):
+            id = canvas.create_rectangle(r(j * 25), r(i * 25), r((j + 1) * 25), r((i + 1) * 25), fill='white')
+            canvas.tag_bind(id, "<Button-1>", tag_helper(j, i))
     canvas.pack()
 
 if __name__ == '__main__':
@@ -159,6 +159,7 @@ if __name__ == '__main__':
 
     # Initialize canvas
     canvas = Canvas(root, width = r((2 * n + 1) * 25), height = r((2 * n + 1) * 25))
+
     createGrid(n, canvas)
     b = Button(root, text="Back", command=delete)
     b.pack(side=BOTTOM)

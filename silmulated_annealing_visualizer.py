@@ -48,8 +48,8 @@ if __name__ == '__main__':
 
     # Choice from various paths from 0 to 1 (y) over 0 tot iters (x)
     #f = sim.gen_exponentialT(iters, 0.01)
-    f = sim.gen_linearT(iters)
-    #f = sim.gen_oneT()
+    #f = sim.gen_linearT(iters)
+    f = sim.gen_oneT()
     #f = sim.gen_sigmoidT_mathv(iters)
 
     #Run algorithm n times
