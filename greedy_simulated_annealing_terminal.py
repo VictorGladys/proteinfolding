@@ -1,6 +1,6 @@
 import numpy as np
 
-import simulated_annealing as sim
+import greedy_simulated_annealing as sim
 import includes.protein as protein
 
 if __name__ == '__main__':
@@ -11,7 +11,7 @@ if __name__ == '__main__':
     times = int(input("How many times do you want to run the algorithm?"))
 
     # Initialize algorithm
-    iters = 300
+    iters = 3000
     high_score = -1
     scores = []
     freqs = []
