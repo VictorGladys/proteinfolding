@@ -1,4 +1,5 @@
 # The various temparature functions for simulated annealing
+import numpy as np
 
 # Temperature stays maximal, which means that simulated annealing with oneT is
 # basically the same as our greedy approach

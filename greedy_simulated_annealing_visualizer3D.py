@@ -11,13 +11,13 @@ ax = fig.add_subplot(111, projection='3d')
 
 p = input("Protein: ")
 times = int(input("How many times do you want to run the algorithm?"))
+iters = 3000
 
 # Choice from various paths from 0 to 1 (y) over 0 tot iters (x)
 #f = gen_exponentialT(iters, 0.01)
 #f = gen_linearT(iters)
-f = gen_oneT()
-#f = gen_sigmoidT_mathv(iters)
-iters = 3000
+#f = gen_oneT()
+f = gen_sigmoidT_mathv(iters)
 
 high_score = -1
 scores = []

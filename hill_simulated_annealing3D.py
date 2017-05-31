@@ -6,8 +6,8 @@ def anneal(max_iters, p, T=None, scoref=None):
     if T == None:
         T = gen_linearT(max_iters)
     if scoref == None:
-        scoref = init_score(p)
-    seq, pos = init_grid(p, len(p))
+        scoref = init_score(p, is_3d=True)
+    seq, pos = init_grid3d(p, len(p))
     global_best_score = 0
     global_best_fold = (seq, pos)
     all_perms = [(bendd, bendp) for bendd in [LEFT, RIGHT] for bendp in range(2, len(p))]
@@ -19,7 +19,7 @@ def anneal(max_iters, p, T=None, scoref=None):
 
         for _ in range(100):
             bendd, bendp = random.choice(all_perms)
-            option = bend_part(bendd, bendp, seq, pos)
+            option = bend_part(bendd, bendp, seq, pos, is_3d=True)
             if option[0] is None:
                 continue
 
