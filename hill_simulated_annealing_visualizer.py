@@ -5,6 +5,7 @@ from numpy import array
 import hill_simulated_annealing as sim
 import includes.protein as protein
 import includes.visualizer as vis
+from includes.simulated_annealing import *
 
 if __name__ == '__main__':
     # Initialize window
@@ -43,10 +44,10 @@ if __name__ == '__main__':
     high_score = -1
     scores = []
     freqs = []
-    #f = sim.gen_exponentialT(iters, 0.01)
-    #f = sim.gen_linearT(iters)
-    #f = sim.gen_oneT()
-    f = sim.gen_sigmoidT_mathv(iters)
+    #f = gen_exponentialT(iters, 0.01)
+    #f = gen_linearT(iters)
+    #f = gen_oneT()
+    f = gen_sigmoidT_mathv(iters)
     for i in range(0, times):
         seq, _, score = sim.anneal(iters, prot.p, T=f)
         print(score)

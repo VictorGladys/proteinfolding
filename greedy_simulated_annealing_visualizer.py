@@ -5,6 +5,7 @@ from numpy import array
 import greedy_simulated_annealing as sim
 import includes.protein as protein
 import includes.visualizer as vis
+from includes.simulated_annealing import *
 
 if __name__ == '__main__':
     # Initialize window
@@ -47,10 +48,10 @@ if __name__ == '__main__':
     freqs = []
 
     # Choice from various paths from 0 to 1 (y) over 0 tot iters (x)
-    #f = sim.gen_exponentialT(iters, 0.01)
-    #f = sim.gen_linearT(iters)
-    f = sim.gen_oneT()
-    #f = sim.gen_sigmoidT_mathv(iters)
+    #f = gen_exponentialT(iters, 0.01)
+    #f = gen_linearT(iters)
+    f = gen_oneT()
+    #f = gen_sigmoidT_mathv(iters)
 
     #Run algorithm n times
     for i in range(0, times):
@@ -58,7 +59,7 @@ if __name__ == '__main__':
             seq, _, score = sim.anneal(iters, prot.p, T=f)
         except KeyboardInterrupt:
             break
-        
+
         print(score)
         print("Keer: ", i)
 
@@ -74,7 +75,7 @@ if __name__ == '__main__':
             high_score = score
             high_seq = seq
 
-    # Visualize highest score        
+    # Visualize highest score
     prot.translateIterativeHill(high_seq)
 
     # Visualize frequencies
@@ -82,6 +83,5 @@ if __name__ == '__main__':
     npfreqs = array(freqs)
     plt.scatter(npscores, npfreqs)
     plt.show()
-    
 
     root.mainloop()

@@ -2,6 +2,7 @@ import numpy as np
 
 import greedy_simulated_annealing as sim
 import includes.protein as protein
+from includes.simulated_annealing import *
 
 if __name__ == '__main__':
     prot = protein.Protein(None)
@@ -17,10 +18,10 @@ if __name__ == '__main__':
     freqs = []
 
     # Choice from various paths from 0 to 1 (y) over 0 tot iters (x)
-    #f = sim.gen_exponentialT(iters, 0.01)
-    f = sim.gen_linearT(iters)
-    #f = sim.gen_oneT()
-    #f = sim.gen_sigmoidT_mathv(iters)
+    #f = gen_exponentialT(iters, 0.01)
+    f = gen_linearT(iters)
+    #f = gen_oneT()
+    #f = gen_sigmoidT_mathv(iters)
 
     #Run algorithm n times
     for i in range(0, times):

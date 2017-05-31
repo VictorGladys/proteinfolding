@@ -6,8 +6,8 @@ def anneal(max_iters, p, T=None, scoref=None):
     if T == None:
         T = gen_linearT(max_iters)
     if scoref == None:
-        scoref = init_score(p)
-    seq, pos = init_grid(p, len(p))
+        scoref = init_score(p, is_3d=True)
+    seq, pos = init_grid3d(p, len(p))
     best_score = 0
     global_best_score = 0
     global_best_fold = None
@@ -16,13 +16,13 @@ def anneal(max_iters, p, T=None, scoref=None):
     while i < max_iters:
         scores = [best_score]
         folds = [(seq, pos)]
-        for bendd in [LEFT, RIGHT]:
+        for bendd in [LEFT, RIGHT, UP, DOWN]:
             # We ignore 'bends' in the first and last positions
             # because they are nonsensical
             # additionaly, counting starts from one, because of the way our array
             # is implemented
             for bendp in range(2, len(p)):
-                option = bend_part(bendd, bendp, seq, pos)
+                option = bend_part(bendd, bendp, seq, pos, is_3d=True)
                 if option[0] is None:
                     continue
 
@@ -34,7 +34,7 @@ def anneal(max_iters, p, T=None, scoref=None):
         thresh = T(i) * best_score
         coords = np.where(scores >= thresh)
         coord = random.choice(coords[0])
-        
+
         best_score = scores[coord]
         (seq, pos) = folds[coord]
 
@@ -46,7 +46,7 @@ def anneal(max_iters, p, T=None, scoref=None):
             i = int(i*0.75)
 
         i += 1
-            
+
     return global_best_fold[0], global_best_fold[1], global_best_score
 
 if __name__ == '__main__':
