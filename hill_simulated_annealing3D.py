@@ -10,7 +10,7 @@ def anneal(max_iters, p, T=None, scoref=None):
     seq, pos = init_grid3d(p, len(p))
     global_best_score = 0
     global_best_fold = (seq, pos)
-    all_perms = [(bendd, bendp) for bendd in [LEFT, RIGHT] for bendp in range(2, len(p))]
+    all_perms = [(bendd, bendp) for bendd in [LEFT, RIGHT, UP, DOWN] for bendp in range(2, len(p))]
     fold = (seq, pos)
 
     for i in range(max_iters):
