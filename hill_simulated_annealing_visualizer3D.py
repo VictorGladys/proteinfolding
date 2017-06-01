@@ -6,6 +6,9 @@ import numpy as np
 import hill_simulated_annealing3D as hlsim
 from includes.simulated_annealing import *
 
+# Provides an easy way to run the algorithm multiple times, and visualises the
+# best scoring fold among the results.
+
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 

@@ -27,6 +27,11 @@ def Cprofit(protein, start, mid, end):
             bridges += 5
     return bridges
 
+# This algorithm calculates every possible standalone fold- and while doing so
+# adds up the best scoring compatible standalone fold that came prior to the
+# current standalone fold. By doing this we limit ourself to a accordion fold,
+# limiting our maximum score, but also reduce the complexity from O(3^n-2)
+# to O(n^4). (n^3 because of three for loops, times the cost function which runs in O(n))
 def solve(p):
     q    = [[0  for _ in range(len(p))] for _ in range(len(p))]
     fold = [[[] for _ in range(len(p))] for _ in range(len(p))]
@@ -40,14 +45,16 @@ def solve(p):
 
                 gains.append(val + continues_from)
 
+            # We use argmax to be able both work with the score as well as the
+            # storing the thusly scoring protein in a way that we can find it
+            # after we know the highest score
             idx = np.argmax(gains)
             q[startp][mid] = gains[idx]
 
             fold[startp][mid] += fold[mid][idx+mid+2] + [mid]
-            #print('\n'.join('\t'.join(''.join(str(c) for c in char) for char in line) for line in fold))
-            #print('-'*50)
     return q[0], fold[0]
 
+# Initializes and runs the program
 if __name__ == '__main__':
     p = input("Protein: ")
 

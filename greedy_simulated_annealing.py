@@ -2,6 +2,13 @@ from includes.iterative_framework import *
 from includes.simulated_annealing import *
 import random
 
+# The approach we used with the greedy algorithm continues into our simulated
+# annealing algorithm- we calculate the score of every fold that is possible in
+# one step from the current protein, then choose randomly out of the subset of
+# options that scores higher than the threshold described by the temperature times
+# the score of the current protein. This means that at T is 1 we can only
+# keep the current score or pick a higher score, whilst T = 0 permits any worse
+# scoring option.
 def anneal(max_iters, p, T=None, scoref=None):
     if T == None:
         T = gen_linearT(max_iters)
@@ -30,11 +37,17 @@ def anneal(max_iters, p, T=None, scoref=None):
                 scores.append(this_score)
                 folds.append(option)
 
+        # We calculate the threshold based on a temperature function that we pass
+        # to the anneal function. T has been initialised so that it only needs an
+        # 0 <= i <= max_iters to find the correct temperature.
         scores = np.array(scores)
         thresh = T(i) * best_score
+
+        # Here we then take a random coordinate of one of the scores that is permitted
+        # by the temperature, and then use it to find the corresponding folded protein.
         coords = np.where(scores >= thresh)
         coord = random.choice(coords[0])
-        
+
         best_score = scores[coord]
         (seq, pos) = folds[coord]
 
@@ -46,7 +59,7 @@ def anneal(max_iters, p, T=None, scoref=None):
             i = int(i*0.75)
 
         i += 1
-            
+
     return global_best_fold[0], global_best_fold[1], global_best_score
 
 if __name__ == '__main__':

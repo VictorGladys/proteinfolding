@@ -5,6 +5,8 @@ from colorama import init, Back, Style
 import dynamic_solver as dyn
 init()
 
+# This function shows the intermediary states of the dynamic programming solution
+# in a somewhat more understandable way.
 def grid_repr(q, startp, mid, endp):
     grid_repr = ''
     for i, line in enumerate(q):
@@ -24,6 +26,10 @@ def grid_repr(q, startp, mid, endp):
     print('-'*50)
     time.sleep(0.5)
 
+# This is the same function as the normal dynamic_solver algorithm, but passing
+# an optional function argument to accomodate grid_repr in the normal algorithm
+# would unnecessarily slow the algorithm down. Thusly we chose to accept not
+# being able to refactor this code.
 def solve(p):
     q    = [[0  for _ in range(len(p))] for _ in range(len(p))]
     fold = [[[] for _ in range(len(p))] for _ in range(len(p))]
@@ -45,11 +51,10 @@ def solve(p):
             q[startp][mid] = gains[idx]
 
             fold[startp][mid] += fold[mid][idx+mid+2] + [mid]
-            #print('\n'.join('\t'.join(''.join(str(c) for c in char) for char in line) for line in fold))
-            #print('-'*50)
     grid_repr(q, startp, mid, endp)
     return q[0], fold[0]
 
+# Initializes and runs the program
 if __name__ == '__main__':
     p = input("Protein: ")
 

@@ -6,6 +6,7 @@ import dynamic_solver as dyn
 import includes.protein as protein
 import includes.visualizer as vis
 
+# Uses our protein object to give us a visualisation of what our protein looks like.
 if __name__ == '__main__':
     # Initialize window
     root=Tk()

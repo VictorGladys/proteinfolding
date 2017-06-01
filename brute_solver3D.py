@@ -10,6 +10,8 @@ D = ( 1, 0, 0)
 
 ds = set([E, W, N, S, U, D])
 
+
+# Recursively does a depth first search
 def next(d, pos, grid, rest):
     possible_neighbordirs = (ds - set([(-d[0], -d[1], -d[2])]))
     neighbordirs = set(possible_neighbordirs)
@@ -24,6 +26,11 @@ def next(d, pos, grid, rest):
 
     grid[pos[1]][pos[0]] = rest[0]
 
+    # These two statements go through all neighbors and calculate the intermediary
+    # score that the unfinished protein holds
+    # Sadly, refactoring the scorefunctions of both brutesolvers would become
+    # rather ugly with grid being a 3d or a 2d list, so we chose to leave it
+    # as is.
     bridges = 0
     if grid[pos[2]][pos[1]][pos[0]] == 'H':
         for neighd in neighbordirs:
@@ -44,17 +51,18 @@ def next(d, pos, grid, rest):
             except:
                 pass
 
-    print(rest[1:]=='')
+    # If we are at the outermost leaves of the searchtree, we return the curent
+    # score
     if rest[1:] == '':
         return bridges
 
+    # We return the highest score of all children spawned from this position
     return bridges + max([0] + [next(newd, pos, copy.deepcopy(grid), rest[1:])
                 for newd in neighbordirs
                     if grid[pos[2] + newd[2]][pos[1] + newd[1]][pos[0] + newd[0]] == ''])
 
 
-
-
+# Initializes and runs the program
 if __name__ == '__main__':
     p = input("Protein: ")
     length = len(p)

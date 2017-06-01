@@ -2,6 +2,14 @@ from includes.iterative_framework import *
 from includes.simulated_annealing import *
 import random
 
+# The approach we used with the greedy simulated annealing algorithm proved very
+# slow, so we decided to cut down on the amount of times we'd run the score function.
+# By doing this we implemented a true simulated annealing hillclimber.
+# Every iteration we look at different options until we find one that scores high
+# enough to be permitted by the temperature. We then take this option as the next
+# starting point for our protein.
+# This still means that at T is 1 we can only keep the current score or pick
+# a higher score, whilst T = 0 permits any worse scoring option.
 def anneal(max_iters, p, T=None, scoref=None):
     if T == None:
         T = gen_linearT(max_iters)
@@ -17,6 +25,9 @@ def anneal(max_iters, p, T=None, scoref=None):
         score = 0
         thresh = T(i) * score
 
+        # We search for options till we find one that is higher than the
+        # threshold determined by the temperature. We hardcapped this
+        # arbitrarily at 100 to prevent infinite loops.
         for _ in range(100):
             bendd, bendp = random.choice(all_perms)
             option = bend_part(bendd, bendp, seq, pos)

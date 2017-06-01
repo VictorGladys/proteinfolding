@@ -5,14 +5,11 @@ import numpy as np
 
 import greedy3D
 
+# Provides an easy way to run the algorithm multiple times, and visualises the
+# best scoring fold among the results.
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-
-#loc = tick.MultipleLocator(base = 0.4)
-#ax.xaxis.set_major_locator(loc)
-#ax.zaxis.set_major_locator(loc)
-#ax.yaxis.set_major_locator(loc)
 
 p = input("Protein: ")
 times = int(input("How many times do you want to run the algorithm?"))
