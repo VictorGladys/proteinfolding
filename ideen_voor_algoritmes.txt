@@ -1,6 +1,0 @@
-1) genetisch algoritme waar vouwingen 180 of 90 graden wordne gerepresenteerd door helpereiwitten
-de systemen met de hoogste score geven hun helpereiwitten door aan een volgende generatie die uit combinaties daarvan bestaan + random mutaties
-
-2) een manier om een hillclimber te implementeren: we gebruiken een 2d numpy array met 0'en voor lege ruimte en 1'en voor het proteine
-als we een vouw maken trekken we van het eiwit alle punten af die volgen, en sommeren ze weer op na een rotatie (met een matrix)
-als er vervolgens een 2 in zit kruist het proteine zich en is de vouwing niet mogelijk, anders kijken we naar de beste vouwing en kiezen die

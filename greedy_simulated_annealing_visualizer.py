@@ -49,8 +49,8 @@ if __name__ == '__main__':
 
     # Choice from various paths from 0 to 1 (y) over 0 tot iters (x)
     #f = gen_exponentialT(iters, 0.01)
-    f = gen_linearT(iters)
-    #f = gen_oneT()
+    #f = gen_linearT(iters)
+    f = gen_oneT()
     #f = gen_sigmoidT_mathv(iters)
 
     #Run algorithm n times

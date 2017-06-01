@@ -23,6 +23,7 @@ high_score = -1
 scores = []
 freqs = []
 for i in range(0, times):
+    print("Time: ", i)
     try:
         seq, _, score = hlsim.anneal(iters, p, T=f)
     except KeyboardInterrupt:

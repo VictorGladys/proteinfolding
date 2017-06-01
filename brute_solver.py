@@ -49,8 +49,6 @@ def next(d, pos, grid, rest):
                     if grid[pos[1] + newd[1]][pos[0] + newd[0]] == ''])
 
 
-
-
 if __name__ == '__main__':
     p = input("Protein: ")
     length = len(p)
